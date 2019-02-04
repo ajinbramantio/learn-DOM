@@ -1,56 +1,82 @@
-const dataTodos = ['bebas coy', 'masa lalu', 'move on']
-const listUL = document.getElementById('ul') //get ul  ( <ul></ul> )
-const todos = {
-  displayTodos: function() {
+let todosData = [
+  { id: 1, name: 'Do something' },
+  { id: 2, name: 'Run something' },
+  { id: 3, name: 'Fix something' }
+]
+
+const listUL = document.getElementById('ULDom')
+
+let newId = todosData.length > 0 ? todosData[todosData.length - 1].id + 1 : 1
+
+const Todos = {
+  displayTodos: () => {
     listUL.innerHTML = ''
-    dataTodos.forEach(dataTodo => {
-      const liDom = document.createElement('li')
-      var submitRemove = document.createElement('INPUT')
-      submitRemove.setAttribute('type', 'submit')
-      submitRemove.setAttribute('value', dataTodo)
-      submitRemove.setAttribute('id', 'name')
-      submitRemove.setAttribute('onclick', 'todos.removeTodos(event)')
-      const textDOM = document.createTextNode(dataTodo)
-      liDom.appendChild(textDOM)
-      liDom.appendChild(submitRemove)
-      listUL.appendChild(liDom)
-      // console.log(textDOM)
-    })
+
+    if (todosData.length > 0) {
+      todosData.forEach(dataTodo => {
+        const liDom = document.createElement('li')
+        liDom.setAttribute('data-id', dataTodo.id)
+
+        const removeButton = document.createElement('INPUT')
+
+        removeButton.setAttribute('type', 'button')
+        removeButton.setAttribute('value', 'X')
+        removeButton.setAttribute('onclick', `Todos.removeTodo(${dataTodo.id})`)
+
+        const textDom = document.createTextNode(dataTodo.name)
+        liDom.appendChild(textDom)
+        liDom.appendChild(removeButton)
+        listUL.appendChild(liDom)
+      })
+    } else {
+      console.log('none')
+    }
   },
 
-  submit: function(event) {
-    // console.log(event)
+  submitAdd: function(event) {
     event.preventDefault()
-    const textTodos = document.getElementById('input-text').value
 
-    if (textTodos !== '') {
-      let result = dataTodos.filter(dataTodo => {
-        return dataTodo !== textTodos
+    let textTodo = document.getElementById('input-text').value
+    // console.log(textTodos, todosData[0].name)
+
+    if (textTodo !== '') {
+      const result = todosData.filter(dataTodo => {
+        return dataTodo.name !== textTodo
       })
-      // console.log(dataTodos.length, result.length)
 
-      if (result.length === dataTodos.length) {
-        dataTodos.push(textTodos)
-        todos.displayTodos()
+      if (result.length === todosData.length) {
+        const newId = todosData.length + 1
+        const newTodo = {
+          id: newId,
+          name: textTodo
+        }
+        todosData.push(newTodo)
+        Todos.displayTodos()
       } else {
-        alert('data sudah ada')
+        alert('Data sudah ada bro')
       }
 
       document.getElementById('input-text').value = ''
     }
   },
 
-  removeTodos: function(event) {
-    let removeBro = document.getElementById('name').value
-    console.log(removeBro)
+  removeTodo: ID => {
+    event.preventDefault()
 
-    if (confirm('are you sure remove is it ?')) {
-      console.log(dataTodos)
+    if (confirm('Are you sure you want to remove this?')) {
+      // const test = todosData[0].id
+      const removeData = todosData.filter(dataTodo => {
+        // console.log(dataTodo.id, ID)
+        return dataTodo.id !== ID
+      })
+
+      todosData = removeData
+
+      Todos.displayTodos()
     } else {
-      console.log('cancel')
+      console.log('Cancelled')
     }
   }
 }
-todos.displayTodos()
 
-// console.log(listUL)
+Todos.displayTodos()
