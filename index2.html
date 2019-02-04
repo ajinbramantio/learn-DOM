@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Todo-List</title>
+    <link rel="stylesheet" href="./assets/css/index.css" />
+  </head>
+  <body>
+    <header id="header">
+      <img class="image" src="./assets/images/class-photo.jpg" alt="" />
+    </header>
+    <div class="container">
+      <form class="form" onsubmit="todos.submit(event)">
+        <input
+          id="input-text"
+          class="text"
+          type="text"
+          placeholder="what to do ?"
+        />
+        <input class="submit" type="submit" value="add" />
+      </form>
+      <div class="list">
+        <ul id="ul" class="ul"></ul>
+      </div>
+    </div>
+    <script src="./assets/js/index.js"></script>
+  </body>
+</html>
